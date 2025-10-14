@@ -1,16 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using SIMSWeb.Business.IService;
 using SIMSWeb.ConstantsAndUtilities;
-using SIMSWeb.Model.Models;
-using SIMSWeb.Model.ViewModels;
-using SIMSWeb.Models;
-using SIMSWeb.Models.User;
-using System.Drawing.Printing;
+using SIMSWeb.Model.ViewModels.Common;
+using SIMSWeb.Model.ViewModels.UserModels;
 
 namespace SIMSWeb.Controllers
 {
@@ -70,7 +65,7 @@ namespace SIMSWeb.Controllers
                     Text = UsersConstants.STUDENT_ROLE,
                     Value = UsersConstants.STUDENT_ROLE
                 }
-            }, "Value", "Text", UserRole);            
+            }, "Value", "Text", UserRole);
 
             manageUsersVM.Paginations = new PaginatedResult<ManageUsersModel>
             {
@@ -93,14 +88,7 @@ namespace SIMSWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User
-                {
-                    Name = userRequest.Name,
-                    Email = userRequest.Email,
-                    Password = userRequest.Password,
-                    Role = userRequest.Role,
-                    CreatedAt = DateTime.Now,
-                };
+                var user = _mapper.Map<UserModel>(userRequest);
 
                 await _userService.AddUser(user);
                 TempData["success"] = "User added successfully";
@@ -109,7 +97,7 @@ namespace SIMSWeb.Controllers
             return View();
         }
 
-        public async Task<ActionResult<UserViewModel>> EditUser(int id)
+        public async Task<ActionResult<ManageUsersModel>> EditUser(int id)
         {
             var user = await _userService.GetUserById(id);
             if (user == null)
@@ -117,17 +105,26 @@ namespace SIMSWeb.Controllers
                 return RedirectToAction("ManageUsers");
             }
 
-            var _user = _mapper.Map<UserViewModel>(user);
+            var _user = _mapper.Map<ManageUsersModel>(user);
             return View(_user);
         }
 
         [HttpPost]
-        public async Task<ActionResult> EditUser(UserViewModel userRequest)
+        public async Task<ActionResult> EditUser(ManageUsersModel userRequest)
         {
             if (ModelState.IsValid)
             {
-                await _userService.UpdateUser(userRequest);
-                TempData["success"] = "User updated successfully";
+                var response = await _userService.UpdateUser(userRequest);
+
+                if (response.Success)
+                {
+                    TempData["success"] = response.Message;
+                }
+                else
+                {
+                    TempData["error"] = response.Message;
+                }
+
                 return RedirectToAction("ManageUsers");
             }
             return View();
@@ -146,6 +143,7 @@ namespace SIMSWeb.Controllers
 
             return View(viewModel);
         }
+
         [HttpPost, ActionName("DeleteUser")]
         public async Task<ActionResult> DeletePOST(int id)
         {

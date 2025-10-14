@@ -1,12 +1,6 @@
 ﻿using SIMSWeb.Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SIMSWeb.Model.ViewModels
+namespace SIMSWeb.Model.ViewModels.ProfileModels
 {
     public class StudentProfileMetrics
     {
@@ -19,12 +13,14 @@ namespace SIMSWeb.Model.ViewModels
 
     public class EnrolledCourses
     {
+        public int Id { get; set; }
         public string CourseName { get; set; }
         public List<string> AssignmentCreated { get; set; }
     }
 
     public class AssignmentProgress
     {
+        public string CourseName { get; set; }
         public string AssignmentTitle { get; set; }
         public double Score { get; set; }
         public double MaxScore { get; set; }

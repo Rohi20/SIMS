@@ -1,6 +1,4 @@
-﻿using SIMSWeb.Model.Models;
-
-namespace SIMSWeb.Models.User
+﻿namespace SIMSWeb.Model.ViewModels.UserModels
 {
     public class AddUserModel
     {

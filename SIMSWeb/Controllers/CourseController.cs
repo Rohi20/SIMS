@@ -1,20 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SIMSWeb.Business.IService;
-using SIMSWeb.Business.Service;
 using SIMSWeb.Business.ServiceDTO.CourseDTO;
-using SIMSWeb.Business.ServiceDTO.StudentDTO;
-using SIMSWeb.Business.ServiceDTO.Teacher;
-using SIMSWeb.Model.Models;
-using SIMSWeb.Model.ViewModels;
-using SIMSWeb.Models;
-using SIMSWeb.Models.Course;
-using System.Drawing.Printing;
+using SIMSWeb.Model.ViewModels.Common;
+using SIMSWeb.Model.ViewModels.Course;
+using SIMSWeb.Model.ViewModels.CourseModels;
+using SIMSWeb.Model.ViewModels.StudentsModels;
+using SIMSWeb.Model.ViewModels.TeachersModels;
 using System.Security.Claims;
 
 namespace SIMSWeb.Controllers
@@ -60,7 +54,7 @@ namespace SIMSWeb.Controllers
 
 
             ViewBag.TeacherId = TeacherFilter == 0 ? -1 : TeacherFilter;
-            ViewBag.CourseSearchText = CourseSearchText ?? string.Empty;
+            ViewBag.CourseSearchText = string.IsNullOrEmpty(CourseSearchText) ? string.Empty : CourseSearchText;
 
             _logger.LogInformation($"TeacherFilter={JsonConvert.SerializeObject(TeacherFilter)} ");
 

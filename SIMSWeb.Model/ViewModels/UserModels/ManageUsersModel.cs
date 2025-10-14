@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using SIMSWeb.Model.Models;
+using SIMSWeb.Model.ViewModels.Common;
 
-namespace SIMSWeb.Models.User
+namespace SIMSWeb.Model.ViewModels.UserModels
 {
     public class ManageUsersModel
     {

@@ -1,13 +1,9 @@
-﻿using AspNetCoreGeneratedDocument;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SIMSWeb.Business.IService;
-using SIMSWeb.Business.Service;
-using SIMSWeb.Business.ServiceDTO.StudentDTO;
 using SIMSWeb.Business.ServiceDTO.SubmissionDTO;
-using SIMSWeb.Model.Models;
-using SIMSWeb.Model.ViewModels;
+using SIMSWeb.Model.ViewModels.StudentsModels;
 
 namespace SIMSWeb.Controllers
 {

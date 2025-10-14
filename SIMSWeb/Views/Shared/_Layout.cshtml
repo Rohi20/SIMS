@@ -14,7 +14,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-4" 
-        data-bs-theme="dark" style="height: 60px">
+        data-bs-theme="dark">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <span class="mt-4">
@@ -32,32 +32,32 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">                
+                    @if (User.Identity.IsAuthenticated)
+                    {
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area=""
-                                   asp-controller="Home" asp-action="Index">Home</a>
+                                       asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area=""
-                                       asp-controller="Users" asp-action="ManageUsers">Users</a>
+                                        asp-controller="Users" asp-action="ManageUsers">Users</a>
                                 </li>
                             }
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Course"
-                                   asp-action="ManageCourses"> Courses</a>
-                            </li>
-                        </ul>
-                    </div>
-                }
-                <div class="d-flex">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <ul class="navbar-nav">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Course"
+                                       asp-action="ManageCourses">Courses</a>
+                                </li>
+                            </ul>
+                   
+                    }
+                    <ul class="nav navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            
                             <li class="nav-item dropdown">
                                 <button class="btn btn-sm nav-link" data-bs-toggle="dropdown" aria-expanded="false">
                                     Hello @User.Identity.Name!
@@ -66,12 +66,15 @@
                                     <li class="nav-item"><a class="dropdown-item btn my-2 my-sm-0" asp-controller="Login" asp-action="Logout">Logout</a></li>
                                 </ul>
                             </li>
-                        </ul>
-                    }
-                    else
-                    {
-                        <a class="btn btn-primary my-2 my-sm-0" asp-area="" asp-controller="Login">Login</a>
-                    }
+                       
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-primary my-2 my-sm-0" asp-area="" asp-controller="Login">Login</a>
+                            </li>
+                        }
+                     </ul>
                 </div>
             </div>
         </nav>

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using SIMSWeb.Business.ServiceDTO.Teacher;
-using SIMSWeb.Model.Models;
+﻿using SIMSWeb.Model.Models;
+using SIMSWeb.Model.ViewModels.Common;
+using SIMSWeb.Model.ViewModels.TeachersModels;
 
-namespace SIMSWeb.Models.Course
+namespace SIMSWeb.Model.ViewModels.CourseModels
 {
     public class ManageCourseModel
     {

@@ -1,4 +1,4 @@
-﻿namespace SIMSWeb.Models.Course
+﻿namespace SIMSWeb.Model.ViewModels.Course
 {
     public class DeleteCourseModel
     {

@@ -1,11 +1,6 @@
 ﻿using SIMSWeb.Business.ServiceDTO.StudentDTO;
-using SIMSWeb.Business.ServiceDTO.Teacher;
-using SIMSWeb.Model.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SIMSWeb.Model.ViewModels.Course;
+using SIMSWeb.Model.ViewModels.TeachersModels;
 
 namespace SIMSWeb.Business.ServiceDTO.CourseDTO
 {

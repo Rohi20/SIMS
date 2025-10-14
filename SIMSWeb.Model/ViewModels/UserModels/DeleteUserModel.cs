@@ -1,4 +1,4 @@
-﻿namespace SIMSWeb.Models.User
+﻿namespace SIMSWeb.Model.ViewModels.UserModels
 {
     public class DeleteUserModel
     {

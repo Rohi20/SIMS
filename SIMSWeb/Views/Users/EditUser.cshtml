@@ -1,7 +1,7 @@
 ﻿@using SIMSWeb.ConstantsAndUtilities
-@using SIMSWeb.Model.ViewModels
+@using SIMSWeb.Model.ViewModels.UserModels;
 
-@model UserViewModel;
+@model ManageUsersModel;
 
 <form method="post" asp-action="EditUser" asp-controller="Users">
     <input asp-for="Id" hidden />

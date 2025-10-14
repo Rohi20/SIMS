@@ -2,11 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SIMSWeb.Business.IService;
-using SIMSWeb.Business.Service;
-using SIMSWeb.Business.ServiceDTO.CourseDTO;
 using SIMSWeb.Model.Models;
-using SIMSWeb.Model.ViewModels;
-using SIMSWeb.Models.Course;
+using SIMSWeb.Model.ViewModels.StudentsModels;
 
 namespace SIMSWeb.Controllers
 {

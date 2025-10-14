@@ -1,4 +1,4 @@
-﻿namespace SIMSWeb.Business.ServiceDTO.Teacher
+﻿namespace SIMSWeb.Model.ViewModels.TeachersModels
 {
     public class TeacherSelect
     {

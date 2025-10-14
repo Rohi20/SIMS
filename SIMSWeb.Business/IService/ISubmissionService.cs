@@ -1,11 +1,5 @@
-﻿using SIMSWeb.Business.ServiceDTO.SubmissionDTO;
-using SIMSWeb.Model.Models;
-using SIMSWeb.Model.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SIMSWeb.Model.Models;
+using SIMSWeb.Model.ViewModels.StudentsModels;
 
 namespace SIMSWeb.Business.IService
 {

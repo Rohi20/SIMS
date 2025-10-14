@@ -1,6 +1,7 @@
 ﻿using SIMSWeb.Business.ServiceDTO.CourseDTO;
 using SIMSWeb.Model.Models;
-using SIMSWeb.Model.ViewModels;
+using SIMSWeb.Model.ViewModels.Course;
+using SIMSWeb.Model.ViewModels.ProfileModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

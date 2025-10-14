@@ -3,11 +3,6 @@ using SIMSWeb.Data.Context;
 using SIMSWeb.Data.Exceptions;
 using SIMSWeb.Data.IRepository;
 using SIMSWeb.Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SIMSWeb.Data.Repository
 {
@@ -62,6 +57,10 @@ namespace SIMSWeb.Data.Repository
         public async Task<User> GetUserByEmail(string email)
         {
             var user = await _dbContext.Users
+                .Include(u => u.Student)
+                        .ThenInclude(s => s.Enrollments)
+                    .Include(u => u.Teacher)
+                        .ThenInclude(t => t.Courses)
                 .Where(u => u.Email == email)
                 .FirstOrDefaultAsync() ?? throw new NotFoundException("User not found");
             return user;

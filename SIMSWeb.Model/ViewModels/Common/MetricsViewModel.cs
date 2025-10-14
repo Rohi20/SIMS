@@ -1,4 +1,4 @@
-﻿namespace SIMSWeb.Models
+﻿namespace SIMSWeb.Model.ViewModels.Common
 {
     public class MetricsViewModel
     {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SIMSWeb.Models
+namespace SIMSWeb.Model.ViewModels.Common
 {
     public class LoginViewModel
     {

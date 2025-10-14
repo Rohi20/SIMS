@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
+using SIMSWeb.Model;
 using SIMSWeb.Model.Models;
-using SIMSWeb.Model.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SIMSWeb.Model.ViewModels.Course;
+using SIMSWeb.Model.ViewModels.StudentsModels;
+using SIMSWeb.Model.ViewModels.TeachersModels;
+using SIMSWeb.Model.ViewModels.UserModels;
 
 namespace SIMSWeb.Model.Profiles
 {
@@ -13,26 +12,24 @@ namespace SIMSWeb.Model.Profiles
     {
         public MappingProfile()
         {
-            CreateMap<User, UserViewModel>();
-            CreateMap<UserViewModel, User>();
+            CreateMap<User, ManageUsersModel>().ReverseMap();
 
-            CreateMap<Course, CourseViewModel>();
-            CreateMap<CourseViewModel, Course>();
+            CreateMap<Course, CourseViewModel>().ReverseMap();
 
-            CreateMap<Teacher, TeacherViewModel>();
-            CreateMap<TeacherViewModel, Teacher>();
+            CreateMap<Teacher, TeacherViewModel>().ReverseMap();
 
             CreateMap<Student, StudentViewModel>();
             CreateMap<StudentViewModel, Student>();
 
-            CreateMap<Enrollment, EnrollmentViewModel>();
-            CreateMap<EnrollmentViewModel, Enrollment>();
+            CreateMap<Enrollment, EnrollmentViewModel>().ReverseMap();
 
-            CreateMap<Assignment, AssignmentViewModel>();
-            CreateMap<AssignmentViewModel, Assignment>();
+            CreateMap<Assignment, AssignmentViewModel>().ReverseMap();
 
-            CreateMap<Submission, SubmissionViewModel>();
-            CreateMap<SubmissionViewModel, Submission>();
+            CreateMap<Submission, SubmissionViewModel>().ReverseMap();
+
+            CreateMap<AddUserModel, UserModel>().ReverseMap();
+            CreateMap<UserModel, User>().ReverseMap();
+
         }
         
     }

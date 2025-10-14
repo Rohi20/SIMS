@@ -1,23 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using SIMSWeb.ConstantsAndUtilities;
+using SIMSWeb.ConstantsAndUtilities.CourseUtilities;
 using SIMSWeb.Data.Context;
 using SIMSWeb.Data.Exceptions;
 using SIMSWeb.Data.IRepository;
 using SIMSWeb.Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
-using SIMSWeb.ConstantsAndUtilities;
-using SIMSWeb.Model.ViewModels;
-using SIMSWeb.ConstantsAndUtilities.CourseUtilities;
-using Microsoft.Extensions.Logging;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
+using SIMSWeb.Model.ViewModels.ProfileModels;
 
 namespace SIMSWeb.Data.Repository
 {
@@ -140,7 +130,7 @@ namespace SIMSWeb.Data.Repository
         public async Task<List<Course>> GetCoursesByUserId(int userId, int teacherFilter,
             string courseSearchText, int skip, int pageSize)
         {
-            IQueryable<Course> courses = _context.Courses
+            IQueryable<Course> courses = _context.Courses.AsNoTracking()
                 .Include(c => c.Teacher)
                     .ThenInclude(t => t.User)
                  .Include(c => c.Enrollments)
@@ -158,8 +148,7 @@ namespace SIMSWeb.Data.Repository
 
             if (teacherFilter > 0 && teacherFilter != null)
             {
-                courses = courses.Include(c => c.Teacher)
-                    .Where(t => t.TeacherId == teacherFilter);
+                courses = courses.Where(t => t.TeacherId == teacherFilter);
             }
 
             if (!string.IsNullOrEmpty(courseSearchText))
@@ -169,8 +158,8 @@ namespace SIMSWeb.Data.Repository
 
             }
 
-            courses = courses.Include(c => c.Teacher)
-                .ThenInclude(t => t.User);
+            //courses = courses.Include(c => c.Teacher)
+            //    .ThenInclude(t => t.User);
 
             if (skip > 0)
             {
@@ -214,10 +203,11 @@ namespace SIMSWeb.Data.Repository
             var today = DateTime.Today;
             var next7Days = today.AddDays(7);
 
-            var coursesWithDueAssignments = _context.Courses
-                .Include(c => c.Enrollments)
+            var coursesWithDueAssignments = _context.Courses.AsNoTracking()
                 .Where(course => course.Assignments
-                    .Any(a => a.DueDate >= today && a.DueDate <= next7Days));
+                    .Any(a => a.DueDate >= today && a.DueDate <= next7Days))
+                .Include(c => c.Enrollments)
+                .AsQueryable();
 
             if (userId > 0)
             {
@@ -240,22 +230,25 @@ namespace SIMSWeb.Data.Repository
         public async Task<List<AssignmentProgress>> GetProgressofStudent(int userId)
         {
             // Step 1: Retrieve courses with assignments and submissions for a specific student
-            var courses = await _context.Courses
-                .Include(course => course.Assignments)
-                    .ThenInclude(assignment => assignment.Submissions)
+            var courses = await _context.Courses.AsNoTracking()
                 .Where(course => course.Assignments
                     .Any(assignment => assignment.Submissions
                         .Any(submission => submission.Student.UserId == userId))) // Filter by student
+                    .Include(course => course.Assignments
+                        .Where(assignment => assignment.Submissions
+                            .Any(submission => submission.Student.UserId == userId)))  // Filter assignments by submission
+                    .ThenInclude(assignment => assignment.Submissions
+                .Where(submission => submission.Student.UserId == userId))  // Filter submissions by student
                 .ToListAsync();
 
             // Step 2: Perform in-memory LINQ operations (GroupBy, Max, etc.)
             var assignmentProgresses = courses
                 .SelectMany(course => course.Assignments)
                 .SelectMany(assignment => assignment.Submissions)
-                .Where(submission => submission.Student.UserId == userId)
                 .GroupBy(submission => submission.AssignmentId)
                 .Select(group => new AssignmentProgress
                 {
+                    CourseName = group.First().Assignment.Course.Name,
                     AssignmentTitle = group.First().Assignment.Title,
                     Score = group.Max(submission => submission.Score),
                     MaxScore = group.First().Assignment.MaxScore,

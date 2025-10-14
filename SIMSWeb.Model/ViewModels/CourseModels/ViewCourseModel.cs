@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 
-namespace SIMSWeb.Models.Course
+namespace SIMSWeb.Model.ViewModels.CourseModels
 {
     public class StudentViewDTO
     {

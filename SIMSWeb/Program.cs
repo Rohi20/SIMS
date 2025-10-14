@@ -1,17 +1,6 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using SIMSWeb.Business.IService;
-using SIMSWeb.Business.Service;
-using SIMSWeb.Business.ServiceDTO.ServiceProfile;
-using SIMSWeb.CustomMiddleware;
-using SIMSWeb.Data.Context;
-using SIMSWeb.Data.IRepository;
-using SIMSWeb.Data.Repository;
-using SIMSWeb.Model.Models;
-using SIMSWeb.Model.Profiles;
-using System.Text;
 using Serilog;
+using SIMSWeb.CustomMiddleware;
+using SIMSWeb.Business.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +10,8 @@ configuration.ReadFrom.Configuration(context.Configuration));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<SIMSDBContext>(option =>
-option.UseSqlServer(builder.Configuration.GetConnectionString("SIMSDBConnection")));
+// Use infrastructure extensions
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var jwtSettings = builder.Configuration.GetSection("JWTSettings");
 
@@ -48,46 +37,9 @@ var jwtSettings = builder.Configuration.GetSection("JWTSettings");
 
 });*/
 
-builder.Services.AddAuthentication("MyCookieAuth")
-    .AddCookie("MyCookieAuth", options =>
-    {
-        options.Cookie.Name = "MyAuthCookie";
-        options.LoginPath = "/Login";
-        options.AccessDeniedPath = "/AccessDenied";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-    });
 
-builder.Services.AddScoped<UserSession>();
-
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("AdminTeacherOnly", policy => 
-    policy.RequireAssertion(context => context.User.IsInRole("Admin")
-    || context.User.IsInRole("Teacher")));
-});
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddScoped<IStudentService, StudentService>();
-
-builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
-builder.Services.AddScoped<ITeacherService, TeacherService>();
-
-builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-builder.Services.AddScoped<ICourseService, CourseService>();
-
-builder.Services.AddScoped<IAssignmentRepository, AssignmentRepository>();
-builder.Services.AddScoped<IAssignmentService, AssignmentService>();
-
-builder.Services.AddScoped<ISubmissionRepository, SubmissionRepository>();
-builder.Services.AddScoped<ISubmissionService, SubmissionService>();
-
-builder.Services.AddAutoMapper(typeof(MappingProfile));
-builder.Services.AddAutoMapper(typeof(ServiceMappingProfile));
+// Use custom service extensions
+builder.Services.AddCustomServices();
 
 var app = builder.Build();
 

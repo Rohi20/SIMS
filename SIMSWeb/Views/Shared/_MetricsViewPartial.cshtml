@@ -1,4 +1,5 @@
-﻿@model MetricsViewModel;
+﻿@using SIMSWeb.Model.ViewModels.Common
+@model MetricsViewModel;
 
 @{
     var isClickable = !String.IsNullOrEmpty(Model.ActionName) && !String.IsNullOrEmpty(Model.ControllerName);
